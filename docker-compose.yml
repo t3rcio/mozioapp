@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: mozioapp-db
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      mozioapp-net:
+        ipv4_address: 175.84.0.4
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${DB_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build: .
+    depends_on:
+      - db
+    container_name: mozioapp-app
+    restart: always
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:5000"
+    environment:
+      - ENVIRONMENT=container
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=175.84.0.4
+      - DB_PORT=5432
+    networks:
+      mozioapp-net:
+        ipv4_address: 175.84.0.3
+networks:
+  mozioapp-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "175.84.0.0/24"
+          gateway: "175.84.0.1"
