@@ -1,7 +1,7 @@
 
 
 from django.contrib.gis.geos import Point
-
+from django.shortcuts import redirect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -21,6 +21,8 @@ logging.basicConfig(
     filename=settings.LOG_FILENAME
 )
 
+def home(request):
+    return redirect('api-doc')
 
 class ProviderViewSet(viewsets.ModelViewSet):
     queryset = Provider.objects.all()

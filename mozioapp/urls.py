@@ -20,12 +20,13 @@ from django.urls import path, include
 # DRF urls
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework.routers import DefaultRouter
-from core.views import ProviderViewSet, ServiceAreaViewSet, get_polygons
+from core.views import ProviderViewSet, ServiceAreaViewSet, get_polygons, home
 
 router = DefaultRouter()
 router.register(r'providers', ProviderViewSet)
 
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/serviceareas/search', get_polygons),
