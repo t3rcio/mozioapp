@@ -12,3 +12,6 @@ wheels/
 .venv/
 settings_env.py
 _logs/
+
+# Static
+static/
