@@ -1,0 +1,5 @@
+DB_NAME=<your database name />    
+DB_USER=<your database user />    
+DB_PASSWORD=<your database password />    
+DB_HOST=<your container IP />    
+DB_PORT=5432
